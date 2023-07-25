@@ -1,33 +1,32 @@
-const MAX_WIDTH = 132;
-const MAX_HEIGHT = 322;
+const MAX_WIDTH = 320;
+const MAX_HEIGHT = 180;
 const MIME_TYPE = "image/jpeg";
 const QUALITY = 0.7;
 
 const input = document.getElementById("img-input");
-input.onchange = function(ev) {
-    const file = ev.target.files[0]; // get the file
-    const blobURL = URL.createObjectURL(file);
-    const img = new Image();
-    img.src = blobURL;
-    img.onerror = function() {
-      URL.revokeObjectURL(this.src);
-      // Handle the failure properly
-      console.log("Cannot load image");
-    };
-    img.onload = function() {
-        URL.revokeObjectURL(this.src);
-        const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
-        const canvas = document.createElement("canvas");
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
-        canvas.toBlob(
-            (blob) => {
-              // Handle the compressed image. es. upload or save in local state
-              displayInfo('Original file', file);
-              displayInfo('Compressed file', blob);
-              
+input.onchange = function (ev) {
+  const file = ev.target.files[0]; // get the file
+  const blobURL = URL.createObjectURL(file);
+  const img = new Image();
+  img.src = blobURL;
+  img.onerror = function () {
+    URL.revokeObjectURL(this.src);
+    // Handle the failure properly
+    console.log("Cannot load image");
+  };
+  img.onload = function () {
+    URL.revokeObjectURL(this.src);
+    const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
+    const canvas = document.createElement("canvas");
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+    canvas.toBlob(
+      (blob) => {
+        // Handle the compressed image. es. upload or save in local state
+        displayInfo('Original file', file);
+        displayInfo('Compressed file', blob);
       },
       MIME_TYPE,
       QUALITY
@@ -51,7 +50,6 @@ function calculateSize(img, maxWidth, maxHeight) {
       width = Math.round((width * maxHeight) / height);
       height = maxHeight;
     }
-
   }
   return [width, height];
 }
