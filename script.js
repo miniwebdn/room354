@@ -1,4 +1,4 @@
-const MAX_WIDTH = auto;
+const MAX_WIDTH = 132;
 const MAX_HEIGHT = 322;
 const MIME_TYPE = "image/jpeg";
 const QUALITY = 0.7;
